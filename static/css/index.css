@@ -1,0 +1,27 @@
+.computeBtn{
+    height: 300px;
+    width: 100%;
+    background-color: red;
+    font-size: 50px;
+    color: white;
+}
+.fitWindowsBtn{
+    margin: 3px 5px;
+}
+.header{
+    margin: 3px 2px 10px 2px;
+    padding: 3px 0;
+    position: relative;
+}
+.header span{
+    position: absolute;
+    color:#009fcf;
+    border-bottom:solid #009fcf;
+    height:2px;
+    width: 100%;
+    bottom:-4px;
+}
+.header ul li{
+    float: left;
+    width: 32%;
+}

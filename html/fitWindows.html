@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改捕获窗口</title>
+    <link rel="stylesheet" href="/static/css/fitWindows.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+</head>
+<body>
+<div class="header">
+    <ul class="nav nav-pills nav-justified">
+        <li role="presentation" class="active"><a href="/">返回</a></li>
+    </ul>
+    <span></span>
+</div>
+<div class="optList">
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" id="btnImgType1" class="btn btn-default btn-lg">落弹时间</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" id="btnImgType2" class="btn btn-default btn-lg">速度和距离</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" id="btnImgType3" class="btn btn-default btn-lg">目标夹角</button>
+        </div>
+    </div>
+</div>
+<div class="windowsImg">
+    <img id="windowsImg" src="">
+</div>
+<div class="modify">
+    <button type="button" id="btnUp" class="btn btn-default btn-lg">垂直起点</button>
+</div>
+<div class="modify">
+    <button type="button" id="btnLeft" class="btn btn-default btn-lg">水平起点</button>
+    <button type="button" id="btnDown" class="btn btn-default btn-lg">垂直高度</button>
+    <button type="button" id="btnRight" class="btn btn-default btn-lg">水平宽度</button>
+</div>
+<div class="rangeBox">
+    <h4 id="inputText">移动的像素大小:0</h4>
+    <p>-10</p>
+    <input min="-10" max="10" type="range" id="speedRange" onchange="showNum();">
+    <p>10</p>
+</div>
+</body>
+<script src="/static/js/jquery-3.5.1.min.js"></script>
+<script src="/static/js/fitWindows.js"></script>
+</html>

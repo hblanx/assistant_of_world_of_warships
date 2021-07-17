@@ -1,0 +1,38 @@
+.header{
+    margin: 3px 2px 10px 2px;
+    padding: 3px 0;
+    position: relative;
+}
+.header span{
+    position: absolute;
+    color:#009fcf;
+    border-bottom:solid #009fcf;
+    height:2px;
+    width: 100%;
+    bottom:-4px;
+}
+.header ul li{
+    float: left;
+    width: 32%;
+}
+.optList{
+    margin: 3px 2px 10px 2px;
+}
+.modify{
+    margin: 3px auto;
+    width: fit-content;
+}
+.rangeBox{
+    margin: 5px;
+}
+.rangeBox p{
+    display: inline;
+}
+.rangeBox input[type="range"]{
+    display: inline;
+    width: 87%;
+}
+.windowsImg{
+    width: fit-content;
+    margin: 0 auto;
+}
