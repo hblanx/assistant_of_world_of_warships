@@ -173,48 +173,7 @@ class MyYolo():
             return -1
 
     # 在这里编辑接口代码
-    def plug(self, im0s, complex=False):
-        # 接受image，返回[第一层数字的float,第二层...]
-        # debug
-        # im0s = cv2.imread("./img/speed591.jpg")  # BGR
-        # data的样式为[['3', 89.99, (463.5, 349.0, 161, 370)], ['3', 93.55, (231.0, 348.0, 170, 380)]]
-        data = self.predict(im0s)
-        # print("debug,data:",data)
-        if complex:
-            # 需要识别两层数字
-            dList = []
-            for i in range(len(data) - 1, -1, -1):
-                # 反向遍历将小数点先取出来
-                if (data[i][0] == 'd'):
-                    dList.append(data.pop(i))
-            # up是['class',可信度,[坐标]]的列表
-            up = max(data, key=lambda x: x[2][1])[2][1]
-            down = min(data, key=lambda x: x[2][1])[2][1]
-            split = (up + down) / 2  # 上下两行的分割线
-            upList = []
-            downList = []
-            for ele in data:
-                if (ele[2][1] > split):  # 高度值越大越靠下
-                    downList.append(ele)
-                else:
-                    upList.append(ele)
-            if (len(dList) == 1):
-                # 为小数点分层，不过航速似乎没有小数点
-                upList.append(dList[0])
-            else:
-                dList.sort(key=lambda x: x[2][1])
-                upList.append(dList[-1])
-                downList.append(dList[0])
-            down = self.getFloat(downList)
-            up = self.getFloat(upList)
-            return [up, down]
-
-        else:
-            # 只识别一层数字
-            return [self.getFloat(data)]
-
-# if __name__ == '__main__':
-#     import cv2
-#     yolo = MyYolo()
-#     img = cv2.imread("./test1.jpg")
-#     data = yolo.plug(img)
+    def plug(self, im0s):
+        # 接受image，返回检测信息
+        # 返回值的样式为[['类型', 置信度, (x轴起点, y轴起点, 宽, 高)], ['3', 93.55, (231.0, 348.0, 170, 380)]]
+        return self.predict(im0s)

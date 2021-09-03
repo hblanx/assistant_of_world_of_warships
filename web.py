@@ -1,17 +1,14 @@
-import json
+import time
 from datetime import timedelta
 
-from bson import ObjectId
 from flask import Flask
 from flask import render_template
-from flask import request, make_response
+from flask import request, jsonify
 
 from baiduAPI import BaiduAPI
 from fireControl import FireControl
 from mapHelper import Map
 from radar import Radar
-
-# import time
 
 fc = FireControl(debug=False)
 rd = Radar()
@@ -24,31 +21,17 @@ web = Flask(__name__,
 web.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(seconds=30)  # 设置过期时间
 
 
-class JSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        return json.JSONEncoder.default(self, o)
+def timer(func):  # 记录计算时间
+    def wrapped(*args, **kwargs):
+        t1 = time.time()
+        res = func(*args, **kwargs)
+        t2 = time.time()
+        with open("tmp.txt", "a") as f:
+            f.write(str(t2 - t1) + "\n")
+        return res
 
+    return wrapped
 
-# 服务器设置客户端可以跨域访问
-from flask_cors import CORS
-
-
-@web.after_request
-def af_request(resp):
-    resp = make_response(resp)  ##需要导入一些函数
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    resp.headers['Access-Control-Allow-Methods'] = 'GET,POST'
-    resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
-    resp.set_cookie("test", "123")
-    return resp
-
-
-CORS(web, supports_credentials=True)
-
-
-# 跨域访问结束
 
 # 设置返回html文件
 @web.route("/")
@@ -73,16 +56,11 @@ def html_map():
 
 # 设置接口
 @web.route("/compute")
+# @timer
 def api_compute():
-    with open("time.txt", "a") as f:
-        # t1 = time.time()
-
-        responseData = {"num": fc.compute()}
-
-        # print("debug,response:",responseData)
-        # t2 = time.time()
-        # f.write(f"{(t2-t1)}\n")
-    return json.dumps(responseData, cls=JSONEncoder)
+    responseData = {"num": fc.compute()}
+    # print("debug,response:",responseData)
+    return jsonify(responseData)
 
 
 @web.route("/getRadarInfo")
@@ -97,7 +75,7 @@ def api_getRadarShipInfo():
         "len": len(msg),
         "list": msg
     }
-    return json.dumps(responseData, cls=JSONEncoder)
+    return jsonify(responseData)
 
 
 @web.route("/radar/fitWindows/fit")
@@ -123,7 +101,7 @@ def api_getMapInfo():
         "state": state,
         "path": path
     }
-    return json.dumps(responseData, cls=JSONEncoder)
+    return jsonify(responseData)
 
 
-web.run(debug=False)
+web.run(host="0.0.0.0", port=80, debug=False)
